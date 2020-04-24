@@ -1,5 +1,5 @@
 import random
-
+import time    
 import requests
 
 url="http://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule"
@@ -14,42 +14,33 @@ class Youdao():
 
 
     def get_salt(self):
-        s=str(random.randint(0,10))
-        t=self.ts
-        #print("random= ",s)
-        #print("ts= ",t)
-        # print("salt= "t+s)
-        return  t+s
-         #return '15860628873889'
+
+        return  self.ts+str(random.randint(0,10))
 
     def get_md5(self,value):
-         import hashlib
          m = hashlib.md5()
          m.update(value.encode("utf-8"))
          return m.hexdigest()
 
     def get_sign(self):
-        i=self.salt
-        e = self.content
-        s="fanyideskweb" + e + i + "Nw(nmmbP%A-r6U3EUn]Aj"
+        s = "fanyideskweb" + self.content + self.salt + "Nw(nmmbP%A-r6U3EUn]Aj"
         print("s= ",s, "md5= " ,get_md5(s))
         return self.get_md5(s)
-        #'16bfeef8bfe1bab0f14a688e05092703'
+
 
 
     def get_ts(self):
-        import time
+
         t = time.time()
         ts = str(int(round(t * 1000)))
         return ts
-       #'1586068687933'
+
 
     def get_content(self):
          return content
 
 
-    # def get_content(self):
-      #     return '我和你都是中国'
+
 
     def yield_form_data(self):
         form_data={
@@ -82,9 +73,18 @@ class Youdao():
     def fanyi(self):
 
          response = requests.post(self.url, date=self.yield_form_data(), headers=self.get_headers())
-         return response.text
+         import json
+         content=json.loads(response.text)
+         return content['translateResult'][0][0]['tgt']
+
+
 
 if __name__ == '__main__':
-    youdao=Youdao('我们')
-    print(youdao.fanyi())
+    while(True)
+        try:
+             i=input("please input :")
+             youdao=Youdao('我们')
+             print("fanyi result  :  ",youdao.fanyi())
+        except:
+               pass
 
