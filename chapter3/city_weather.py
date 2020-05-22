@@ -1,4 +1,7 @@
+import time
+
 import requests
+
 
 class HeFeng():
     def __init__(self):
@@ -25,6 +28,7 @@ class HeFeng():
 
 
     def get_weather(self,city_code):
+        time.sleep(1)
         url=self.pre_requests+city_code+self.sub_requsets
         info=requests.get(url)
         info.encoding=self.encoding
